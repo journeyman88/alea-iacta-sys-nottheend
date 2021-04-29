@@ -68,11 +68,11 @@ public class NotTheEndCommand extends RpgSystemCommand
             {
                 Collection<NotTheEndModifiers> mods = opt.getModifiers();
                 mods.add(NotTheEndModifiers.RISK);
-                roll = new NotTheEndRisk(mods);
+                roll = new NotTheEndRisk(lang, mods);
             }
             else
             {
-                roll = new NotTheEndExtract(opt.getTraits(), opt.getDifficulty(), opt.getRandom(), opt.getExtract(), opt.getModifiers());
+                roll = new NotTheEndExtract(lang, opt.getTraits(), opt.getDifficulty(), opt.getRandom(), opt.getExtract(), opt.getModifiers());
             }
             retVal = Optional.of(roll);
         }

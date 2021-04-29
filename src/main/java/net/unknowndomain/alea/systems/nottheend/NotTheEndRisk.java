@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Locale;
 import net.unknowndomain.alea.roll.GenericResult;
 import net.unknowndomain.alea.roll.StatefulRoll;
 
@@ -31,14 +32,14 @@ public class NotTheEndRisk extends NotTheEndBase implements StatefulRoll
     
     private NotTheEndResults prev;
     
-    public NotTheEndRisk(NotTheEndModifiers ... mod)
+    public NotTheEndRisk(Locale lang, NotTheEndModifiers ... mod)
     {
-        this(Arrays.asList(mod));
+        this(lang, Arrays.asList(mod));
     }
     
-    public NotTheEndRisk(Collection<NotTheEndModifiers> mod)
+    public NotTheEndRisk(Locale lang, Collection<NotTheEndModifiers> mod)
     {
-        super(mod);
+        super(lang, mod);
     }
     
     @Override

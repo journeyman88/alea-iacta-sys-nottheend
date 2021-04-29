@@ -18,6 +18,8 @@ package net.unknowndomain.alea.systems.nottheend;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import net.unknowndomain.alea.messages.MsgBuilder;
 import net.unknowndomain.alea.roll.GenericResult;
 
@@ -27,14 +29,16 @@ import net.unknowndomain.alea.roll.GenericResult;
  */
 public class NotTheEndResults extends GenericResult
 {
+    private final Locale lang;
     private final List<Tokens> results;
     private final List<Tokens> bag;
     private final int whites;
     private final int blacks;
     private NotTheEndResults prev;
     
-    public NotTheEndResults(List<Tokens> results, List<Tokens> bag)
+    public NotTheEndResults(Locale lang, List<Tokens> results, List<Tokens> bag)
     {
+        this.lang = lang;
         List<Tokens> tmp = new ArrayList<>(results.size());
         tmp.addAll(results);
         this.results = Collections.unmodifiableList(tmp);
@@ -60,15 +64,17 @@ public class NotTheEndResults extends GenericResult
     @Override
     protected void formatResults(MsgBuilder messageBuilder, boolean verbose, int indentValue)
     {
+        ResourceBundle bundle = ResourceBundle.getBundle("net.unknowndomain.alea.systems.nottheend.RpgSystemBundle", lang);
         String indent = getIndent(indentValue);
-        messageBuilder.append(indent).append("White: ").append(whites);
-        messageBuilder.append(" | Black: ").append(blacks).appendNewLine();
+        messageBuilder.append(indent).append(bundle.getString("nottheend.results.white")).append(whites);
+        messageBuilder.append(" | ").append(bundle.getString("nottheend.results.black")).append(blacks).appendNewLine();
+        
         if (verbose)
         {
             messageBuilder.append(indent).append("Roll ID: ").append(getUuid()).appendNewLine();
             if (!results.isEmpty())
             {
-                messageBuilder.append(indent).append("Results: ").append(" [ ");
+                messageBuilder.append(indent).append(bundle.getString("results.results")).append(" [ ");
                 for (Tokens t : results)
                 {
                     messageBuilder.append(t).append(" ");
@@ -78,7 +84,7 @@ public class NotTheEndResults extends GenericResult
             if (!bag.isEmpty())
             {
                 
-                messageBuilder.append(indent).append("Bag content: ").append(" [ ");
+                messageBuilder.append(indent).append(bundle.getString("nottheend.results.bagContent")).append(" [ ");
                 for (Tokens t : bag)
                 {
                     messageBuilder.append(t).append(" ");
@@ -87,7 +93,7 @@ public class NotTheEndResults extends GenericResult
             }
             if (prev != null)
             {
-                messageBuilder.append(indent).append("Prev : {\n");
+                messageBuilder.append(indent).append(bundle.getString("results.prev")).append(" {\n");
                 prev.formatResults(messageBuilder, verbose, indentValue + 4);
                 messageBuilder.append(indent).append("}\n");
             }

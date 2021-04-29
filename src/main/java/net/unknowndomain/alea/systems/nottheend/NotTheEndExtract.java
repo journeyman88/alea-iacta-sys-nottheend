@@ -15,11 +15,11 @@
  */
 package net.unknowndomain.alea.systems.nottheend;
 
-import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Locale;
 import net.unknowndomain.alea.roll.GenericResult;
 
 /**
@@ -32,14 +32,14 @@ public class NotTheEndExtract extends NotTheEndBase
     private final List<Tokens> bag;
     private final int extract;
     
-    public NotTheEndExtract(Integer trait, Integer difficulty, Integer random, Integer extract, NotTheEndModifiers ... mod)
+    public NotTheEndExtract(Locale lang, Integer trait, Integer difficulty, Integer random, Integer extract, NotTheEndModifiers ... mod)
     {
-        this(trait, difficulty, extract, random, Arrays.asList(mod));
+        this(lang, trait, difficulty, extract, random, Arrays.asList(mod));
     }
     
-    public NotTheEndExtract(Integer traits, Integer difficulty, Integer random, Integer extract, Collection<NotTheEndModifiers> mod)
+    public NotTheEndExtract(Locale lang, Integer traits, Integer difficulty, Integer random, Integer extract, Collection<NotTheEndModifiers> mod)
     {
-        super(mod);
+        super(lang, mod);
         bag = new ArrayList<>();
         int i;
         if (traits != null)

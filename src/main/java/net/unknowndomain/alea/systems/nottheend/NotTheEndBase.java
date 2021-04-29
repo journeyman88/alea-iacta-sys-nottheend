@@ -19,6 +19,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 import net.unknowndomain.alea.roll.GenericRoll;
 
@@ -28,11 +29,12 @@ import net.unknowndomain.alea.roll.GenericRoll;
  */
 public abstract class NotTheEndBase implements GenericRoll
 {
-    
+    private final Locale lang; 
     protected final Set<NotTheEndModifiers> mods;
 
-    public NotTheEndBase(Collection<NotTheEndModifiers> mod)
+    public NotTheEndBase(Locale lang, Collection<NotTheEndModifiers> mod)
     {
+        this.lang = lang;
         this.mods = new HashSet<>();
         this.mods.addAll(mod);
     }
@@ -45,7 +47,7 @@ public abstract class NotTheEndBase implements GenericRoll
         {
             currentResult.add(bagPool.remove(0));
         }
-        NotTheEndResults results = new NotTheEndResults(currentResult, bagPool);
+        NotTheEndResults results = new NotTheEndResults(lang, currentResult, bagPool);
         results.setVerbose(mods.contains(NotTheEndModifiers.VERBOSE));
         return results;
     }
