@@ -34,7 +34,7 @@ public class NotTheEndOptions extends RpgSystemOptions
     @Override
     public boolean isValid()
     {
-        return !(isHelp() || (extract != null && !risk) || (extract == null && risk));
+        return !(isHelp() || (extract == null && !risk) || (extract != null && risk));
     }
 
     public Integer getTraits()
