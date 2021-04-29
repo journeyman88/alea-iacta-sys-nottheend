@@ -72,7 +72,7 @@ public class NotTheEndCommand extends RpgSystemCommand
             }
             else
             {
-                roll = new NotTheEndExtract(opt.getTraits(), opt.getDifficulty(), opt.getExtract(), opt.getModifiers());
+                roll = new NotTheEndExtract(opt.getTraits(), opt.getDifficulty(), opt.getRandom(), opt.getExtract(), opt.getModifiers());
             }
             retVal = Optional.of(roll);
         }

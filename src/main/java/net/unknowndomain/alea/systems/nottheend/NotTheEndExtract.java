@@ -15,6 +15,7 @@
  */
 package net.unknowndomain.alea.systems.nottheend;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -31,23 +32,44 @@ public class NotTheEndExtract extends NotTheEndBase
     private final List<Tokens> bag;
     private final int extract;
     
-    public NotTheEndExtract(Integer trait, Integer difficulty, Integer extract, NotTheEndModifiers ... mod)
+    public NotTheEndExtract(Integer trait, Integer difficulty, Integer random, Integer extract, NotTheEndModifiers ... mod)
     {
-        this(trait, difficulty, extract, Arrays.asList(mod));
+        this(trait, difficulty, extract, random, Arrays.asList(mod));
     }
     
-    public NotTheEndExtract(Integer traits, Integer difficulty, Integer extract, Collection<NotTheEndModifiers> mod)
+    public NotTheEndExtract(Integer traits, Integer difficulty, Integer random, Integer extract, Collection<NotTheEndModifiers> mod)
     {
         super(mod);
         bag = new ArrayList<>();
         int i;
-        for (i = 0; i < traits; i++)
+        if (traits != null)
         {
-            bag.add(Tokens.WHITE);
+            for (i = 0; i < traits; i++)
+            {
+                bag.add(Tokens.WHITE);
+            }
         }
-        for (i = 0; i < difficulty; i++)
+        if (difficulty != null)
         {
-            bag.add(Tokens.BLACK);
+            for (i = 0; i < difficulty; i++)
+            {
+                bag.add(Tokens.BLACK);
+            }
+        }
+        if (random != null)
+        {
+            for (i = 0; i < random; i++)
+            {
+                int rand = (int) (Math.random() * 10);
+                if (rand < 5)
+                {
+                    bag.add(Tokens.BLACK);
+                }
+                else
+                {
+                    bag.add(Tokens.WHITE);
+                }
+            }
         }
         if (extract > 4)
         {

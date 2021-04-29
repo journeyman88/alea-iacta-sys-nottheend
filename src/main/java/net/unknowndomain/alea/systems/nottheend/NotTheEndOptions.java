@@ -24,6 +24,8 @@ public class NotTheEndOptions extends RpgSystemOptions
     private Integer traits;
     @RpgSystemOption(name = "difficulty", shortcode = "d", description = "nottheend.options.difficulty", argName = "difficultyRating")
     private Integer difficulty;
+    @RpgSystemOption(name = "random", shortcode = "p", description = "nottheend.options.random", argName = "randomToken")
+    private Integer random;
     @RpgSystemOption(name = "extract", shortcode = "e", description = "nottheend.options.extract", argName = "extractValue")
     private Integer extract;
     @RpgSystemOption(name = "risk", shortcode = "r", description = "nottheend.options.risk")
@@ -32,7 +34,7 @@ public class NotTheEndOptions extends RpgSystemOptions
     @Override
     public boolean isValid()
     {
-        return !(isHelp() || (traits == null && difficulty != null) || (difficulty == null ||  extract != null));
+        return !(isHelp() || (extract != null && !risk) || (extract == null && risk));
     }
 
     public Integer getTraits()
@@ -63,6 +65,16 @@ public class NotTheEndOptions extends RpgSystemOptions
     public boolean isRisk()
     {
         return risk;
+    }
+
+    public Integer getRandom()
+    {
+        return random;
+    }
+
+    public void setRandom(Integer random)
+    {
+        this.random = random;
     }
     
 }
