@@ -19,7 +19,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+import net.unknowndomain.alea.random.SingleResult;
 import net.unknowndomain.alea.roll.GenericRoll;
 
 /**
@@ -36,16 +38,20 @@ public abstract class NotTheEndBase implements GenericRoll
         this.mods = new HashSet<>();
         this.mods.addAll(mod);
     }
+    
+    protected abstract TokenDeck getBag();
 
-    protected NotTheEndResults extractTokens(List<Tokens> currentResult, List<Tokens> bagPool, int extract)
+    protected NotTheEndResults extractTokens(List<SingleResult<Tokens>> currentResult, int extract)
     {
-        Collections.shuffle(bagPool);
-        int currentPos = currentResult.size();
-        for (int i = currentPos; i < extract; i++)
+        for (int i = 0; i < extract; i++)
         {
-            currentResult.add(bagPool.remove(0));
+            Optional<SingleResult<Tokens>> tr = getBag().nextResult();
+            if (tr.isPresent())
+            {
+                currentResult.add(tr.get());
+            }
         }
-        NotTheEndResults results = new NotTheEndResults(currentResult, bagPool);
+        NotTheEndResults results = new NotTheEndResults(currentResult, getBag());
         results.setVerbose(mods.contains(NotTheEndModifiers.VERBOSE));
         return results;
     }

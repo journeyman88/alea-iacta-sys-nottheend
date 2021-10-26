@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import net.unknowndomain.alea.random.SingleResult;
 import net.unknowndomain.alea.roll.GenericResult;
 import net.unknowndomain.alea.roll.StatefulRoll;
 
@@ -47,11 +48,9 @@ public class NotTheEndRisk extends NotTheEndBase implements StatefulRoll
         NotTheEndResults results = prev;
         if (mods.contains(NotTheEndModifiers.RISK))
         {
-            List<Tokens> bagPool = new ArrayList<>(prev.getBag().size());
-            bagPool.addAll(prev.getBag());
-            List<Tokens> current = new ArrayList<>(5);
+            List<SingleResult<Tokens>> current = new ArrayList<>(5);
             current.addAll(prev.getResults());
-            results = extractTokens(current, bagPool, 5);
+            results = extractTokens(current, 5);
             results.setPrev(prev);
         }
         return results;
@@ -67,6 +66,12 @@ public class NotTheEndRisk extends NotTheEndBase implements StatefulRoll
             retVal = true;
         }
         return retVal;
+    }
+
+    @Override
+    protected TokenDeck getBag()
+    {
+        return prev.accessBag();
     }
     
 }
