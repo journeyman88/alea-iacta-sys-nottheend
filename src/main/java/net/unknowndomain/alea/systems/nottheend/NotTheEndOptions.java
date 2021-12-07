@@ -17,18 +17,18 @@ import net.unknowndomain.alea.systems.annotations.RpgSystemOption;
  *
  * @author journeyman
  */
-@RpgSystemData(bundleName = "net.unknowndomain.alea.systems.nottheend.RpgSystemBundle")
+@RpgSystemData(bundleName = "net.unknowndomain.alea.systems.nottheend.RpgSystemBundle", groupsName = {"base","risk"}, groupsDesc = {"Extract", "Take a risk"})
 public class NotTheEndOptions extends RpgSystemOptions
 {
-    @RpgSystemOption(name = "traits", shortcode = "t", description = "nottheend.options.traits", argName = "traitsNumber")
+    @RpgSystemOption(name = "traits", shortcode = "t", description = "nottheend.options.traits", argName = "traitsNumber", groupName = "base")
     private Integer traits;
-    @RpgSystemOption(name = "difficulty", shortcode = "d", description = "nottheend.options.difficulty", argName = "difficultyRating")
+    @RpgSystemOption(name = "difficulty", shortcode = "d", description = "nottheend.options.difficulty", argName = "difficultyRating", groupName = "base")
     private Integer difficulty;
-    @RpgSystemOption(name = "random", shortcode = "p", description = "nottheend.options.random", argName = "randomToken")
+    @RpgSystemOption(name = "random", shortcode = "p", description = "nottheend.options.random", argName = "randomToken", groupName = "base")
     private Integer random;
-    @RpgSystemOption(name = "extract", shortcode = "e", description = "nottheend.options.extract", argName = "extractValue")
+    @RpgSystemOption(name = "extract", shortcode = "e", description = "nottheend.options.extract", argName = "extractValue", groupName = "base", groupRequired = true)
     private Integer extract;
-    @RpgSystemOption(name = "risk", shortcode = "r", description = "nottheend.options.risk")
+    @RpgSystemOption(name = "risk", shortcode = "r", description = "nottheend.options.risk", groupName = "risk", groupRequired = true)
     private boolean risk;
     
     @Override

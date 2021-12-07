@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import net.unknowndomain.alea.messages.MsgBuilder;
+import net.unknowndomain.alea.random.SingleResult;
 import net.unknowndomain.alea.roll.GenericResult;
 
 /**
@@ -29,26 +30,22 @@ import net.unknowndomain.alea.roll.GenericResult;
  */
 public class NotTheEndResults extends GenericResult
 {
-    private final Locale lang;
-    private final List<Tokens> results;
-    private final List<Tokens> bag;
+    private final List<SingleResult<Tokens>> results;
+    private final TokenDeck bag;
     private final int whites;
     private final int blacks;
     private NotTheEndResults prev;
     
-    public NotTheEndResults(Locale lang, List<Tokens> results, List<Tokens> bag)
+    public NotTheEndResults(List<SingleResult<Tokens>>  results, TokenDeck bag)
     {
-        this.lang = lang;
-        List<Tokens> tmp = new ArrayList<>(results.size());
+        List<SingleResult<Tokens>>  tmp = new ArrayList<>(results.size());
         tmp.addAll(results);
         this.results = Collections.unmodifiableList(tmp);
-        tmp = new ArrayList<>(bag.size());
-        tmp.addAll(bag);
-        this.bag = Collections.unmodifiableList(tmp);
+        this.bag = bag;
         int w = 0 , b = 0;
-        for (Tokens t : results)
+        for (SingleResult<Tokens> t : results)
         {
-            if (t == Tokens.WHITE)
+            if (t.getValue() == Tokens.WHITE)
             {
                 w++;
             }
@@ -64,7 +61,7 @@ public class NotTheEndResults extends GenericResult
     @Override
     protected void formatResults(MsgBuilder messageBuilder, boolean verbose, int indentValue)
     {
-        ResourceBundle bundle = ResourceBundle.getBundle("net.unknowndomain.alea.systems.nottheend.RpgSystemBundle", lang);
+        ResourceBundle bundle = ResourceBundle.getBundle("net.unknowndomain.alea.systems.nottheend.RpgSystemBundle", Locale.ENGLISH);
         String indent = getIndent(indentValue);
         messageBuilder.append(indent).append(bundle.getString("nottheend.results.white")).append(whites);
         messageBuilder.append(" | ").append(bundle.getString("nottheend.results.black")).append(blacks).appendNewLine();
@@ -74,22 +71,17 @@ public class NotTheEndResults extends GenericResult
             messageBuilder.append(indent).append("Roll ID: ").append(getUuid()).appendNewLine();
             if (!results.isEmpty())
             {
-                messageBuilder.append(indent).append(bundle.getString("results.results")).append(" [ ");
-                for (Tokens t : results)
+                messageBuilder.append(indent).append("Results: ").append(" [ ");
+                for (SingleResult<Tokens> t : results)
                 {
-                    messageBuilder.append(t).append(" ");
+                    messageBuilder.append("( ").append(t.getLabel()).append(" => ");
+                    messageBuilder.append(t.getValue()).append(") ");
                 }
                 messageBuilder.append("]\n");
             }
-            if (!bag.isEmpty())
+            if (!bag.getContents().isEmpty())
             {
-                
-                messageBuilder.append(indent).append(bundle.getString("nottheend.results.bagContent")).append(" [ ");
-                for (Tokens t : bag)
-                {
-                    messageBuilder.append(t).append(" ");
-                }
-                messageBuilder.append("]\n");
+                messageBuilder.append(indent).append("Tokens left: ").append(bag.getContents()).append("\n");
             }
             if (prev != null)
             {
@@ -110,12 +102,12 @@ public class NotTheEndResults extends GenericResult
         this.prev = prev;
     }
 
-    public List<Tokens> getResults()
+    public List<SingleResult<Tokens>> getResults()
     {
         return results;
     }
 
-    public List<Tokens> getBag()
+    public TokenDeck accessBag()
     {
         return bag;
     }
