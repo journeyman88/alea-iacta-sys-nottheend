@@ -55,6 +55,7 @@ public abstract class NotTheEndBase implements GenericRoll
         }
         NotTheEndResults results = new NotTheEndResults(currentResult, getBag());
         results.setVerbose(mods.contains(NotTheEndModifiers.VERBOSE));
+        results.setLang(lang);
         return results;
     }
     

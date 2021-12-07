@@ -18,18 +18,18 @@ package net.unknowndomain.alea.systems.nottheend;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
 import net.unknowndomain.alea.messages.MsgBuilder;
 import net.unknowndomain.alea.random.SingleResult;
-import net.unknowndomain.alea.roll.GenericResult;
+import net.unknowndomain.alea.roll.LocalizedResult;
 
 /**
  *
  * @author journeyman
  */
-public class NotTheEndResults extends GenericResult
+public class NotTheEndResults extends LocalizedResult
 {
+    private final static String BUNDLE_NAME = "net.unknowndomain.alea.systems.nottheend.RpgSystemBundle";
+    
     private final List<SingleResult<Tokens>> results;
     private final TokenDeck bag;
     private final int whites;
@@ -61,17 +61,16 @@ public class NotTheEndResults extends GenericResult
     @Override
     protected void formatResults(MsgBuilder messageBuilder, boolean verbose, int indentValue)
     {
-        ResourceBundle bundle = ResourceBundle.getBundle("net.unknowndomain.alea.systems.nottheend.RpgSystemBundle", Locale.ENGLISH);
         String indent = getIndent(indentValue);
-        messageBuilder.append(indent).append(bundle.getString("nottheend.results.white")).append(whites);
-        messageBuilder.append(" | ").append(bundle.getString("nottheend.results.black")).append(blacks).appendNewLine();
+        messageBuilder.append(indent).append(translate("nottheend.results.white", whites));
+        messageBuilder.append(" | ").append(translate("nottheend.results.black", blacks)).appendNewLine();
         
         if (verbose)
         {
             messageBuilder.append(indent).append("Roll ID: ").append(getUuid()).appendNewLine();
             if (!results.isEmpty())
             {
-                messageBuilder.append(indent).append("Results: ").append(" [ ");
+                messageBuilder.append(indent).append(translate("nottheend.results.bagResults")).append(" [ ");
                 for (SingleResult<Tokens> t : results)
                 {
                     messageBuilder.append("( ").append(t.getLabel()).append(" => ");
@@ -81,11 +80,11 @@ public class NotTheEndResults extends GenericResult
             }
             if (!bag.getContents().isEmpty())
             {
-                messageBuilder.append(indent).append("Tokens left: ").append(bag.getContents()).append("\n");
+                messageBuilder.append(indent).append(translate("nottheend.results.bagContent")).append(bag.getContents()).append("\n");
             }
             if (prev != null)
             {
-                messageBuilder.append(indent).append(bundle.getString("results.prev")).append(" {\n");
+                messageBuilder.append(indent).append(translate("nottheend.results.prevResults")).append(" {\n");
                 prev.formatResults(messageBuilder, verbose, indentValue + 4);
                 messageBuilder.append(indent).append("}\n");
             }
@@ -120,6 +119,12 @@ public class NotTheEndResults extends GenericResult
     public int getBlacks()
     {
         return blacks;
+    }
+
+    @Override
+    protected String getBundleName()
+    {
+        return BUNDLE_NAME;
     }
 
 }
